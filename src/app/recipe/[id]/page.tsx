@@ -20,7 +20,7 @@ const RecipePage = async ({ params }: Props) => {
         alt={recipe.title}
         width={500}
         height={500}
-        className="w-full md:w-1/4 mx-auto"
+        className="w-full md:w-1/4 mx-auto rounded-xl"
       />
       <div className="flex flex-col items-center justify-center mt-8 px-10 gap-10">
         <h1 className="text-3xl font-bold text-center">{recipe.title}</h1>
