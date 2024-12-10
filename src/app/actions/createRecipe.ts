@@ -4,9 +4,9 @@ import prisma from "@/lib/prisma";
 import { z } from "zod";
 import ImageKit from "imagekit";
 
-import { recipeSchema } from "../create-recipe/page";
 
 import { getCurrentUser } from "@/lib/session";
+import { recipeSchema } from "../create-recipe/CreateForm";
 
 export async function createRecipe({
   category,
