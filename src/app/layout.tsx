@@ -24,7 +24,7 @@ export default function RootLayout({
       >
         <Provider>
           <Toaster />
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen container">
             <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-50">
               <div className="container flex items-center m-auto justify-between py-4">
                 <Navbar />
