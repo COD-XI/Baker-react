@@ -30,14 +30,14 @@ export default async function Home() {
           ))}
         </div>
       </section>
-      <section className="flex flex-col items-center justify-center md:flex-row">
+      <section className="flex flex-col items-center justify-center md:flex-row gap-7">
         <div className="flex flex-col items-center justify-center w-full md:w-1/2">
           <Image
             width={500}
             height={500}
             src="/passion.jpeg"
             alt="Passion cakes"
-            className="mx-auto rounded-lg shadow-lg w-2/3"
+            className="mx-auto rounded-lg shadow-lg md:w-2/3 w-full"
           />
         </div>
         <div className=" w-full md:w-1/2">
@@ -58,7 +58,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <span className="bg-[url('/bake-world.jpeg')]  h-lvh rounded-2xl mx-auto w-full  bg-center bg-fixed text-6xl font-bold p-10 text-white text-center flex flex-col gap-12 items-center justify-center">
+      <span className="bg-[url('/bake-world.jpeg')]  h-lvh rounded-2xl mx-auto w-full  bg-center bg-fixed md:text-6xl text-3xl font-bold p-10 text-white text-center flex flex-col gap-12 items-center justify-center">
         Join the bakery world to share your passion, infuse recipes with
         creativity, and inspire growth in a community that thrives on the joy of
         delicious creations.
