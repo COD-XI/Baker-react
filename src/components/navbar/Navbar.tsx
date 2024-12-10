@@ -18,7 +18,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/categories", label: "Categories" },
   { href: "/create-recipe", label: "Create Recipe" },
-  { href: "/favorites", label: "Favorites" },
+  { href: "/explore", label: "Explore" }, 
   { href: "/about", label: "About" },
 ];
 
