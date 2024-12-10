@@ -18,7 +18,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/categories", label: "Categories" },
   { href: "/create-recipe", label: "Create Recipe" },
-  { href: "/explore", label: "Explore" }, 
+  { href: "/explore", label: "Explore" },
   { href: "/about", label: "About" },
 ];
 
@@ -99,12 +99,21 @@ export function Navbar() {
                   </Link>
                 </DropdownMenuItem>
               ))}
-              <DropdownMenuItem>
-                <Link href="/login">Log in</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="/signup">Sign up</Link>
-              </DropdownMenuItem>
+              {!data?.user?.id ? (
+                <>
+                  {" "}
+                  <DropdownMenuItem>
+                    <Link href="/login">Log in</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/signup">Sign up</Link>
+                  </DropdownMenuItem>{" "}
+                </>
+              ) : (
+                <DropdownMenuItem>
+                  <Link href="/profile">My Profile</Link>
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
