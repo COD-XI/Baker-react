@@ -1,13 +1,15 @@
 import EditForm from "../EditForm";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function EditRecipePage({ params }: Props) {
+  const id = (await params).id;
+
   const recipe = await prisma.recipe.findUnique({
     where: {
-      id: params.id,
+      id,
     },
   });
 

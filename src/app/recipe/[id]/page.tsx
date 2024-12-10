@@ -1,16 +1,18 @@
 import Image from "next/image";
 import React from "react";
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 const RecipePage = async ({ params }: Props) => {
+  const id = (await params).id;
+
   const recipe = await prisma.recipe.findUnique({
     where: {
-      id: params.id,
+      id,
     },
   });
   if (!recipe) {
-    return <div>No recipe found with id {params.id}</div>;
+    return <div>No recipe found with id {id}</div>;
   }
 
   return (
