@@ -29,7 +29,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between">
+      <div className="container flex h-14 items-center justify-between px-5">
         <Link href="/" className="flex items-center space-x-2 mr-6">
           <CakeIcon className="h-6 w-6 text-pink-600" />
           <span className="font-bold text-xl text-pink-600">
@@ -68,7 +68,7 @@ export function Navbar() {
               </Button>
             </>
           ) : (
-            <div className="flex items-center gap-4">
+            <div className="items-center gap-4 hidden md:flex">
               <Image
                 width={50}
                 height={50}
