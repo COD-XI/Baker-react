@@ -1,5 +1,6 @@
 import RecipeCard from "@/components/recipe-card/RecipeCard";
 import React from "react";
+import prisma from "@/lib/prisma";
 
 interface Props {
   params: Promise<{ id: string }>;

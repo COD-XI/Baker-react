@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import prisma from "@/lib/prisma";
 interface Props {
   params: Promise<{ id: string }>;
 }
