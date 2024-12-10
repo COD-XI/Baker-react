@@ -1,16 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
-export default function Home() {
+import RecipeCard from "@/components/recipe-card/RecipeCard";
+
+export default async function Home() {
+  const recipes = (await prisma.recipe.findMany()).reverse();
   return (
     <div className="space-y-12">
       <section className="text-center py-20 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg text-white">
@@ -28,41 +22,8 @@ export default function Home() {
           Featured Recipes
         </h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              title: "Chocolate Cake",
-              image: "/placeholder.svg?height=200&width=300",
-            },
-            {
-              title: "Blueberry Muffins",
-              image: "/placeholder.svg?height=200&width=300",
-            },
-            {
-              title: "Cinnamon Rolls",
-              image: "/placeholder.svg?height=200&width=300",
-            },
-          ].map((recipe, i) => (
-            <Card key={i} className="overflow-hidden">
-              <Image
-                src={recipe.image}
-                alt={recipe.title}
-                width={300}
-                height={200}
-                className="w-full object-cover h-48"
-              />
-              <CardHeader>
-                <CardTitle>{recipe.title}</CardTitle>
-                <CardDescription>A mouthwatering treat</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>This recipe is perfect for any occasion...</p>
-              </CardContent>
-              <CardFooter>
-                <Button variant="outline" asChild>
-                  <Link href={`/recipe/${i + 1}`}>View Recipe</Link>
-                </Button>
-              </CardFooter>
-            </Card>
+          {recipes.slice(0, 3).map((recipe, i) => (
+            <RecipeCard recipe={recipe} key={i} />
           ))}
         </div>
       </section>

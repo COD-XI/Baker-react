@@ -24,11 +24,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
+import { createRecipe } from "../actions/createRecipe";
 
 const MAX_FILE_SIZE = 5000000; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-const formSchema = z.object({
+export const recipeSchema = z.object({
   title: z
     .string()
     .min(2, {
@@ -74,14 +76,17 @@ const formSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       ".jpg, .jpeg, .png and .webp files are accepted."
-    ),
+    )
+    .optional(),
 });
 
 export default function CreateRecipePage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { data: session } = useSession();
+
+  const form = useForm<z.infer<typeof recipeSchema>>({
+    resolver: zodResolver(recipeSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -91,33 +96,41 @@ export default function CreateRecipePage() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
-    try {
-      // Here you would typically send the data to your backend
-      console.log(values);
+  const onImageProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0];
+    const reader = new FileReader();
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    reader.onloadend = () => {
+      const base64Image = reader.result as string;
+      setImage(base64Image as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
+  const onSubmit = async (values: z.infer<typeof recipeSchema>) => {
+    const response = await createRecipe({
+      ...values,
+      image: image as string,
+    });
+    if (response.status === 201) {
       toast({
-        title: "Recipe created!",
-        description: "Your new recipe has been successfully added.",
+        title: "Success",
+        description: response?.message,
       });
-
-      // Reset form
       form.reset();
-    } catch (error) {
-      console.error("Error submitting recipe:", error);
+    } else {
       toast({
         title: "Error",
-        description:
-          "There was a problem creating your recipe. Please try again.",
+        description: response?.message,
         variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
     }
+  };
+
+  if (!session) {
+    return (
+      <div className="text-center mt-8">Please sign in to create a recipe.</div>
+    );
   }
 
   return (
@@ -223,28 +236,17 @@ export default function CreateRecipePage() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Recipe Image</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => field.onChange(e.target.files)}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Upload an image of your recipe. (Max size: 5MB)
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Creating Recipe..." : "Create Recipe"}
+
+          <Input type="file" accept="image/*" onChange={onImageProfileChange} />
+
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting
+              ? "Creating Recipe..."
+              : "Create Recipe"}
           </Button>
         </form>
       </Form>

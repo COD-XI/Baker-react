@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CakeIcon, MenuIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSession } from "next-auth/react";
 
 const links = [
   { href: "/", label: "Home" },
@@ -22,6 +23,8 @@ const links = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { data } = useSession();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -46,10 +49,26 @@ export function Navbar() {
           ))}
         </nav>
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" className="hidden md:inline-flex">
-            Log in
-          </Button>
-          <Button className="hidden md:inline-flex">Sign up</Button>
+          {!data?.user?.id ? (
+            <>
+              {" "}
+              <Button
+                variant="ghost"
+                className="hidden md:inline-flex"
+                onClick={() => router.push("/login")}
+              >
+                Log in
+              </Button>
+              <Button
+                className="hidden md:inline-flex"
+                onClick={() => router.push("/register")}
+              >
+                Sign up
+              </Button>
+            </>
+          ) : (
+            <Link href="/profile" className="text-xl font-bold">{data?.user?.name}</Link>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon" className="md:hidden">
