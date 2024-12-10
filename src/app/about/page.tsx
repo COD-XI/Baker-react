@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function AboutPage() {
   return (
@@ -58,6 +59,8 @@ export default function AboutPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Image width={500} height={500} src="/about.jpg" alt="About Bakery" className="mx-auto rounded-lg shadow-lg" />
     </div>
   );
 }

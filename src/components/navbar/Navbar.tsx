@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const links = [
   { href: "/", label: "Home" },
@@ -67,7 +68,18 @@ export function Navbar() {
               </Button>
             </>
           ) : (
-            <Link href="/profile" className="text-xl font-bold">{data?.user?.name}</Link>
+            <div className="flex items-center gap-4">
+              <Image
+                width={50}
+                height={50}
+                src={"/cooker-avatar.webp"}
+                alt="Profile"
+                className="rounded-full"
+              />
+              <Link href="/profile" className="text-xl font-bold">
+                {data?.user?.name}
+              </Link>
+            </div>
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

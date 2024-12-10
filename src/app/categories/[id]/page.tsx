@@ -19,7 +19,7 @@ const CategoryPage = async ({ params }: Props) => {
   }
 
   return (
-    <div className="flex flex-col space-y-8">
+    <div className="flex flex-col space-y-8 flex-1 items-center justify-center">
       <h2 className="text-3xl font-semibold mb-6 text-center">{params.id}</h2>
       {recipes.map((recipe) => (
         <RecipeCard recipe={recipe} key={recipe.id} />
